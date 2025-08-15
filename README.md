@@ -101,6 +101,7 @@ npm install
 ```env
 VITE_WEATHER_API_KEY=your_api_key_here
 ```
+Prerequisite : Your own API key
 
 4️⃣ Run the Development Server
 ```bash
