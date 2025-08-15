@@ -16,8 +16,6 @@ function Navbar() {
   const desktopRef = useRef(null);
   const mobileRef = useRef(null);
 
-  // Fetch city suggestions
-  // Fetch city suggestions
   useEffect(() => {
     if (!inputValue.trim()) {
       setSuggestions([]);
@@ -44,12 +42,10 @@ function Navbar() {
         })
         .then((data) => {
           if (data.data && data.data.length > 0) {
-            // 1️⃣ Filter India cities first
             const indiaCities = data.data.filter(
               (city) => city.country === "IN"
             );
 
-            // 2️⃣ Prioritize exact match
             let cityList = [];
             const exactMatch = indiaCities.find(
               (city) => city.name.toLowerCase() === inputValue.toLowerCase()
@@ -58,14 +54,12 @@ function Navbar() {
               cityList.push(`${exactMatch.name}, ${exactMatch.country}`);
             }
 
-            // 3️⃣ Add remaining India cities
             cityList = cityList.concat(
               indiaCities
                 .filter((city) => city !== exactMatch)
                 .map((city) => `${city.name}, ${city.country}`)
             );
 
-            // 4️⃣ If no India cities, fallback to all suggestions
             if (cityList.length === 0) {
               cityList = data.data.map(
                 (city) => `${city.name}, ${city.country}`
@@ -96,7 +90,6 @@ function Navbar() {
     return () => clearTimeout(delayDebounce);
   }, [inputValue, isSearchOpen]);
 
-  // Close dropdown on click outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (
@@ -264,7 +257,7 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile search overlay */}
+      {/* Mobile search*/}
       {isSearchOpen && (
         <div className="sm:hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-[60] animate-in fade-in duration-200">
           <div className="fixed top-2 left-2 right-2 backdrop-blur-3xl bgwh p-3 rounded-lg shadow-lg animate-in slide-in-from-top duration-300">

@@ -26,7 +26,6 @@ import {
 } from "lucide-react";
 import { useWeather } from "./Context";
 
-// Weather themes mapping
 const weatherThemes = {
   Clear: {
     bg: "bg-yellow-500",
@@ -84,7 +83,6 @@ const weatherThemes = {
   },
 };
 
-// Error Component
 const ErrorDisplay = ({ error, onRetry, onGoHome, theme }) => (
   <div
     className={`min-h-screen ${theme.bg} flex flex-col items-center justify-center p-4`}
@@ -166,7 +164,6 @@ const ErrorDisplay = ({ error, onRetry, onGoHome, theme }) => (
   </div>
 );
 
-// Loading Component
 const LoadingDisplay = ({ theme }) => (
   <div
   className={`flex items-center justify-center min-h-screen ${theme.bg} ${theme.text}`}
@@ -201,7 +198,6 @@ function Landing() {
   const [theme, setTheme] = useState(weatherThemes.Default);
   const API_KEY = import.meta.env.VITE_MY_API;
 
-  // Validate weather data structure
   const isValidWeatherData = (data) => {
     return (
       data &&
@@ -223,7 +219,6 @@ function Landing() {
       if (city?.trim()) {
         await fetchWeatherByCity(city);
       } else {
-        // Try geolocation first
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (pos) =>
@@ -234,9 +229,9 @@ function Landing() {
                 type: "location_error",
                 message: "Unable to access location",
               });
-              fetchWeatherByCity("Bangalore"); // Fallback city
+              fetchWeatherByCity("Bangalore"); 
             },
-            { timeout: 10000 } // 10 second timeout
+            { timeout: 10000 }
           );
         } else {
           fetchWeatherByCity("Bangalore");
@@ -364,7 +359,6 @@ function Landing() {
       const today = new Date();
       const historyData = [];
 
-      // Fetch historical data with error handling
       for (let i = 1; i <= 3; i++) {
         try {
           const pastDate = new Date(today);
@@ -383,7 +377,6 @@ function Landing() {
           }
         } catch (err) {
           console.warn(`Failed to fetch history for day ${i}:`, err);
-          // Continue with other days even if one fails
         }
       }
 
@@ -403,11 +396,9 @@ function Landing() {
       setExtendedWeather(merged);
     } catch (err) {
       console.error("Extended weather fetch error:", err);
-      // Don't set error here as main weather data is still valid
     }
   };
 
-  // Error handlers
   const handleRetry = () => {
     if (city?.trim()) {
       fetchWeatherByCity(city);
@@ -441,15 +432,13 @@ function Landing() {
     if (text.includes("fog") || text.includes("mist"))
       return <CloudFog className="w-full h-full" />;
     if (text.includes("night")) return <Moon className="w-full h-full" />;
-    return <Cloud className="w-full h-full" />; // fallback
+    return <Cloud className="w-full h-full" />; 
   }
 
-  // Show loading state
   if (loading) {
     return <LoadingDisplay theme={theme} />;
   }
 
-  // Show error state
   if (error || !weather || !isValidWeatherData(weather)) {
     return (
       <ErrorDisplay
@@ -461,7 +450,6 @@ function Landing() {
     );
   }
 
-  // Extract data safely
   const current = weather.current;
   const location = weather.location;
   const day = weather.forecast?.forecastday[0]?.day;
@@ -472,7 +460,6 @@ function Landing() {
     <div
       className={`${theme.bg} min-h-screen ${theme.text} flex flex-col items-center px-2 sm:px-4 lg:px-6 py-4 sm:py-6 lg:py-10 transition-all duration-700`}
     >
-      {/* Rest of your existing JSX code remains exactly the same */}
       {/* Heading */}
       <div className="mt-4 sm:mt-8 lg:mt-15 text-center max-w-full">
         <p
