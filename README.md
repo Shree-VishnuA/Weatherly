@@ -145,6 +145,5 @@ npm run build
 vercel deploy
 ```
 ---
-
-
 Link : https://shree-vishnua.github.io/Weatherly/
+
